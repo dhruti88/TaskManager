@@ -10,7 +10,7 @@ import express from "express"
 //middleWare
 import bodyParser from "body-parser"; 
 //import DB connection
-import './db.js'; 
+import './connection.js'; 
 //import routes
 import userRoutes from "./routes/userRoutes.js";
 import taskRoutes from "./routes/taskRoutes.js";
