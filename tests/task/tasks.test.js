@@ -7,14 +7,7 @@ import auth from '../../middleware/authentication.js';
 
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NzkxMjM2YjBkMWU1YzUxNGVkYmU3NmMiLCJpYXQiOjE3Mzc1OTc2MzB9.KTItER1OmsyltiJ3I5onpM00hOUZr2dxGp7brX5PqAI";
 
-jest.mock("../../models/task.js", () => ({
-    find: jest.fn(),
-    findOne: jest.fn(),
-    findOneAndDelete: jest.fn(),
-    prototype: { save: jest.fn() }
-}));
-
-
+jest.mock("../../models/task.js");
 
 jest.mock("../../middleware/authentication.js", () => (req, res, next) => {
     req.user = { _id: "123456" };
@@ -28,14 +21,33 @@ describe("Task Routes", () => {
         await server.close();
     });
 
+    test("should create a task successfully", async () => {
+
+        // Mock User.prototype.save to simulate successful user creation
+        Task.prototype.save.mockResolvedValueOnce({
+            _id: "task123",
+            title: "Test task",
+            description: "This is a test task",
+            status: "pending"
+        });
+
+        const response = await request(app)
+            .post("/api/tasks")
+            .send({
+                title: "Test task",
+                description: "This is a test task",
+                status: "pending",
+            });
+
+        console.log(response.body); // Log the response for debugging
+
+        // Assertions
+        expect(response.status).toBe(201);
+        expect(response.body).toHaveProperty("message", "Task created Succesfully");
+    });
+
     // test("should create a task successfully", async () => {
-    //     const mockUserId = new mongoose.Types.ObjectId();
-    //     Task.prototype.save.mockResolvedValueOnce({ 
-    //         _id: "12345",
-    //         title: "Test Task",
-    //         description: "This is a test task",
-    //         status: "pending",
-    //         owner: "12345" });
+    //     Task.prototype.save.mockResolvedValueOnce(true);
 
 
     //         const response = await request(app)
