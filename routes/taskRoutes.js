@@ -39,7 +39,8 @@ router.post('/', auth, async (req, res) => {
     } 
     catch(err)
     {
-        res.status(400).send({error:err});
+        console.error("Task creation error:", err); // Log actual error
+        res.status(400).json({ error: err.message || "Something went wrong" });
     }
 
 });

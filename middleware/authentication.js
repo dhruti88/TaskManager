@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 import User from "../models/user.js";
+import mongoose from "mongoose";
 
 //extract user_id from token
 

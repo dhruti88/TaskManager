@@ -60,7 +60,7 @@ app.get('/api',(req,res) => {
 //     console.log(`Server listening on port ${PORT}`);
 // });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
   console.log(`Swagger docs are available at http://localhost:${PORT}/api-docs`);
 });
@@ -69,6 +69,9 @@ app.listen(PORT, () => {
 //Base URLs
 app.use("/api/users",userRoutes)
 app.use("/api/tasks",taskRoutes)
+
+export { server };
+export default app;
 
 
 
